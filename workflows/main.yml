@@ -1,0 +1,12 @@
+on: [push]
+
+jobs:
+  unit_tests_job:
+    runs-on: ubuntu-latest
+    name: Runs python unit tests in docker container
+    steps:
+    - name: Unit test action step
+      id: success
+      uses: actions/unit_tests@v1
+    - name: Have all tests passed
+      run: echo "Tests passed:${{ steps.success.outputs.tests_passed }}"
