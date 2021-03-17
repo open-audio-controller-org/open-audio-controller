@@ -20,13 +20,13 @@ function names to follow same convention as variables.
 When defining lists or passing many parameters to functions,
 place individual parameters on separate lines for readability and
 in general try to adhere to Python's recommended maximum line length.
-some_long_variable = ["One",
-                      "Per",
-                      "Line",
-                      "Instead",
-                      "of",
-                      "Super",
-                      "Long",
+some_long_variable = ["One",\n
+                      "Per",\n
+                      "Line",\n
+                      "Instead",\n
+                      "of",\n
+                      "Super",\n
+                      "Long",\n
                       "List"]
 
 All unused variables and all unnecesary logging to be removed **BEFORE** commiting to git unless specifically required.
