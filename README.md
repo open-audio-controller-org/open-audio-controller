@@ -17,9 +17,22 @@ private variables in the form: __this_is_an_example
 
 function names to follow same convention as variables.
 
-all unused variables and all unnecesary logging to be removed **BEFORE** commiting to git unless specifically required.
+When defining lists or passing many parameters to functions,
+place individual parameters on separate lines for readability and
+in general try to adhere to Python's recommended maximum line length.
+some_long_variable = ["One",
+                      "Per",
+                      "Line",
+                      "Instead",
+                      "of",
+                      "Super",
+                      "Long",
+                      "List"]
 
-full code coverage tests to be added as soon as possible following function completion, all unreachable code must be removed.
+All unused variables and all unnecesary logging to be removed **BEFORE** commiting to git unless specifically required.
+
+Full code coverage tests to be added as soon as possible following function completion, all unreachable code must be removed.
+Test files should be placed in the test directory and names should be suffixed with _test.py, running open_audio_controller_test.py will then automatically import and run all present tests.
 
 ------------------------------------------------------------------------------------------------------
 
