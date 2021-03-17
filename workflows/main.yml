@@ -7,6 +7,6 @@ jobs:
     steps:
     - name: Unit test action step
       id: success
-      uses: actions/unit_tests@v1
+      uses: actions/unit_tests
     - name: Have all tests passed
       run: echo "Tests passed:${{ steps.success.outputs.tests_passed }}"
