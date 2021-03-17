@@ -1,0 +1,8 @@
+name: 'Build'
+description: 'Placeholder for build and test action'
+outputs:
+  tests_passed:
+    description: 'Have all tests passed'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
