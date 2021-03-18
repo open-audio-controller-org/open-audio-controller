@@ -5,4 +5,4 @@ RUN apt-get install -y python3-pip
 RUN pip3 install --upgrade pip
 COPY / /open-audio-controller
 RUN tests_passed=true
-ENTRYPOINT ["python3", "/open-audio-controller/test/open_audio_controller_test.py"]
+ENTRYPOINT ["python3", "/open-audio-controller/tests/open_audio_controller_test.py"]
