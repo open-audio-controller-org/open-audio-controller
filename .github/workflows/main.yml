@@ -3,7 +3,7 @@
 name: CI
 
 on:
-  release:
+  push:
     branches: [ main ]
     
   workflow_dispatch:
@@ -18,12 +18,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #   TODO RE ADD VERSION AND FIX THIS BS
       - uses: actions/checkout@v2
-
-      - name: Unit test action step
-        id: success
-        uses: ./.github/actions/unit_tests
-        
-      - name: Have all tests passed
-        run: echo "Tests passed:${{ steps.success.outputs.tests_passed }}"
+      - name: Run dockerfile with python tests
+        run: |
+          docker build -t open-audio-controller .
+          docker run -it open-audio-controller
