@@ -22,4 +22,4 @@ jobs:
       - name: Run dockerfile with python tests
         run: |
           docker build -t open-audio-controller .
-          docker run -it open-audio-controller
+          docker run open-audio-controller
