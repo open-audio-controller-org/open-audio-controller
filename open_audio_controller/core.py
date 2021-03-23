@@ -17,10 +17,15 @@ audio_frames = []
 audio_stream = None
 
 """Setup PyAudio"""
+
+
 def prepare():
     audio_engine = pyaudio.PyAudio()
 
+
 """Live Audio Input Record"""
+
+
 def start_stream():
     audio_stream = audio_engine.open(format=FORMAT,
                                      channels=CHANNELS,
@@ -30,22 +35,34 @@ def start_stream():
                                      stream_callback=stream_callback)
     audio_stream.start_stream()
 
+
 """Functionality for active stream"""
+
+
 def stream_callback(in_data, frame_count, time_info, flag):
     audio_data = numpy.fromstring(in_data, dtype=numpy.float32)
     if (RECORD_TO_FILE):
         audio_frames.append(audio_data);
     return audio_data, pyaudio.paContinue
 
+
 """Live Audio Input Stop"""
+
+
 def end_stream():
     audio_stream.stop_stream()
 
+
 """File Audio Input Functionality"""
+
+
 def read_wave():
     pass
 
+
 """File Audio Output Functionality"""
+
+
 def save_wave():
     waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
     waveFile.setnchannels(CHANNELS)
@@ -54,14 +71,25 @@ def save_wave():
     waveFile.writeframes(b''.join(audio_frames))
     waveFile.close()
 
+
 """Cleans up the audio engine"""
+
+
 def cleanup_engine():
     if (audio_stream != None): audio_stream.close()
     if (audio_engine != None): audio_engine.terminate()
 
+
 """Main for Testing"""
-prepare()
-start_stream()
-time.sleep(10)
-end_stream()
-cleanup_engine()
+
+
+def main():
+    prepare()
+    start_stream()
+    time.sleep(10)
+    end_stream()
+    cleanup_engine()
+
+
+if __name__ == "__main__":
+    main()
