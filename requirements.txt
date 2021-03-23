@@ -1,3 +1,4 @@
 coverage==5.5
 Flask==1.1.2
 PyAudio==0.2.11
+numpy==1.20.0
