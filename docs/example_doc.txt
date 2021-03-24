@@ -1,0 +1,36 @@
+example_function:
+	Parameters: 
+	-----------
+	p1 : int 
+	  Parameter one description.
+	p2 : int, optional 
+	  Parameter two description.
+	  Default=12.
+	p3 : bool
+	  Parameter three description.
+	p4 : float 
+	  Parameter four description.
+
+        Returns
+	-------
+	None
+	  If necessary include a description of the return value.
+
+The documentation here should describe in detail how the function is implemented.
+
+
+example_function_two:
+	Parameters: 
+	-----------
+	p1 : int 
+	  Parameter one description.
+	p2 : int, optional 
+	  Parameter two description.
+	  Default=18.
+
+        Returns
+	-------
+	None
+	  If necessary include a description of the return value.
+
+The documentation here should describe in detail how the function is implemented.
