@@ -12,7 +12,7 @@ RECORD_TO_FILE = False
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "file.wav"
 
-audio_engine = pyaudio.PyAudio()
+audio_engine = None
 audio_frames = []
 audio_stream = None
 
@@ -20,6 +20,7 @@ audio_stream = None
 
 
 def prepare():
+    global audio_engine
     audio_engine = pyaudio.PyAudio()
 
 
@@ -27,6 +28,7 @@ def prepare():
 
 
 def start_stream():
+    global audio_stream, audio_engine
     audio_stream = audio_engine.open(format=FORMAT,
                                      channels=CHANNELS,
                                      rate=RATE,
@@ -40,6 +42,7 @@ def start_stream():
 
 
 def stream_callback(in_data, frame_count, time_info, flag):
+    global audio_frames
     audio_data = numpy.fromstring(in_data, dtype=numpy.float32)
     if (RECORD_TO_FILE):
         audio_frames.append(audio_data);
@@ -64,20 +67,20 @@ def read_wave():
 
 
 def save_wave():
-    waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    waveFile.setnchannels(CHANNELS)
-    waveFile.setsampwidth(audio_engine.get_sample_size(FORMAT))
-    waveFile.setframerate(RATE)
-    waveFile.writeframes(b''.join(audio_frames))
-    waveFile.close()
+    wave_file = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wave_file.setnchannels(CHANNELS)
+    wave_file.setsampwidth(audio_engine.get_sample_size(FORMAT))
+    wave_file.setframerate(RATE)
+    wave_file.writeframes(b''.join(audio_frames))
+    wave_file.close()
 
 
 """Cleans up the audio engine"""
 
 
 def cleanup_engine():
-    if (audio_stream != None): audio_stream.close()
-    if (audio_engine != None): audio_engine.terminate()
+    if audio_stream is not None: audio_stream.close()
+    if audio_engine is not None: audio_engine.terminate()
 
 
 """Main for Testing"""
