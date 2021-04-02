@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    </head>
-    <body>
-        <div id = "content">
-            <h1 id ="heading">Open Audio Controller</h1>
-            <button type="button" onclick="alert('Noise Cancellation activated')">Activate Noise Cancellation</button>
-            <button type="button" onclick="alert('Noise Cancellation deactivated')">Deactivate Noise Cancellation</button>
-        </div>
-    </body>
+
+<head>
+</head>
+
+<body>
+    <div id="content">
+        <h1 id="heading">Open Audio Controller</h1>
+        <!-- <form action="{{ url_for('controller_state') }}", method="POST"></form> -->
+        <button onclick="activationButton(event)">Activate Noise Cancellation</button>
+        <!-- <button onclick="activationButton(event)" value="false">Deactivate Noise Cancellation</button> -->
+    </div>
+    <script type="text/javascript">
+        let controllerState = true;
+        async function activationButton(ev) {
+            ev.preventDefault()
+            // console.log(ev.target.value, ev.target.content)
+            if (controllerState) {
+                ev.target.innerText = 'Deactivate Noise Cancellation'
+                controllerState = true;
+            } else {
+                ev.target.innerText = 'Activate Noise Cancellation'
+                controllerState = false;
+            }
+            post("{{url_for('controller_state')}}", {state: controllerState})
+        }
+
+        async function post(route, data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', route)
+            xhr.send(JSON.stringify(data))
+        }
+    </script>
+</body>
+
 </html>
