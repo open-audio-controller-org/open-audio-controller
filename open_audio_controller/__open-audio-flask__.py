@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, logging, json, make_response, jsonify
 app = Flask(__name__)
+import core.py
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -10,8 +11,10 @@ def controller_state():
     state = content["state"]
     if state == True:
          app.logger.info('Turning on Module')
+         audio_stream.start_stream()
     elif state == False:
          app.logger.info('Turning off module')
+         audio_stream.stop_stream()
     else:
          app.logger.info('No state found')
          
