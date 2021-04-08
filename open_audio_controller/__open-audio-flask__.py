@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, logging
+from flask import Flask, render_template, request, logging, json, make_response, jsonify
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -6,14 +6,16 @@ def index():
 
 @app.route('/controller_state', methods=['POST'])
 def controller_state():
-    content = request.json
-    state = content.state
-    if state == 'true':
-        app.logger.info('Turning on Module')
-    elif state == 'false':
-        app.logger.info('Turning off module')
+    content = request.get_json(force=True)
+    state = content["state"]
+    if state == True:
+         app.logger.info('Turning on Module')
+    elif state == False:
+         app.logger.info('Turning off module')
     else:
-        app.logger.info('No state found')
+         app.logger.info('No state found')
+         
+    return jsonify(state)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
