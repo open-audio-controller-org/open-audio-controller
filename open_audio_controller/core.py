@@ -5,190 +5,169 @@ core.py provides audio I/O and passes to audio processing
 import logging
 import time
 import pyaudio, wave, numpy
-
-"""
-Constants holding user's desired settings.
-"""
-
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 1024
-READ_FROM_FILE = False
-RECORD_TO_FILE = False
-RECORD_SECONDS = 5
-WAVE_INPUT_FILENAME = "../tests/test_core_audio_files/test_input.wav"
-WAVE_OUTPUT_FILENAME = "../tests/test_core_audio_files/test_output.wav"
+import open_audio_controller.module
+import open_audio_controller.simple_filter
 
 """
 Internal Debug Flag
 """
 DEBUG = True
 
-"""
-Internal Global Variables
-"""
-audio_engine = None
-audio_frames = []
-audio_stream = None
-audio_file = None
 
-
-def prepare():
+class module_core():
     """
-        Prepares audio engine.
-
-        Parameters:
-            ----------
-            None
-
-        Returns:
-            ----------
-            None
-    """
-    global audio_engine
-    audio_engine = pyaudio.PyAudio()
-
-
-def start_stream():
-    """
-        Starts audio stream.
-
-        Parameters:
-            ----------
-            None
-
-        Returns:
-            ----------
-            None
-    """
-    global audio_stream, audio_engine, audio_file
-    if READ_FROM_FILE:
-        audio_file = wave.open(WAVE_INPUT_FILENAME, 'rb')
-        audio_stream = audio_engine.open(format=audio_engine.get_format_from_width(audio_file.getsampwidth()),
-                                     channels=audio_file.getnchannels(),
-                                     rate=audio_file.getframerate(),
-                                     output=True,
-                                     input=False,
-                                     stream_callback=stream_callback)
-
-    else:
-        audio_stream = audio_engine.open(format=FORMAT,
-                                     channels=CHANNELS,
-                                     rate=RATE,
-                                     output=True,
-                                     input=True,
-                                     stream_callback=stream_callback)
-    audio_stream.start_stream()
-
-
-def stream_callback(in_data: bytes,
-                    frame_count: int,
-                    time_info: dict,
-                    flag: int) -> (numpy.ndarray, int):
-    """
-        Prepares audio engine.
-
-        Parameters:
-            ----------
-            in_data : bytes
-                Input audio data from engine
-            frame_count : int
-                Number of frames in input data
-            time_info : dict
-                Dictionary containing loading, current, and finished timing
-            flag : int
-                PortAudio callback flag
-
-
-        Returns:
-            ----------
-            audio_data : numpy.ndarray
-                Output byte array
-            pyAudio.paContinue : int
-                Internal signaling of whether there is more audio to process
+    Constants holding user's desired settings.
+    To be removed when replaced with JSON-based settings.
     """
 
-    global audio_frames, audio_file
-    if READ_FROM_FILE:
-        audio_data = audio_file.readframes(frame_count)
-    else:
-        audio_data = numpy.frombuffer(in_data, dtype=numpy.float32)
-    if RECORD_TO_FILE:
-        audio_frames.append(audio_data)
-    # logging.info(f"Typeof audio_data: {type(audio_data)}")
-    # logging.info(f"Typeof continue: {type(pyaudio.paContinue)}")
-    return audio_data, pyaudio.paContinue
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 44100
+    CHUNK = 1024
+    READ_FROM_FILE = False
+    RECORD_TO_FILE = False
+    PLAYBACK_AUDIO = True
+    RECORD_SECONDS = 5
+    WAVE_INPUT_FILENAME = "../tests/test_core_audio_files/test_input.wav"
+    WAVE_OUTPUT_FILENAME = "../tests/test_core_audio_files/test_output.wav"
 
-
-def end_stream():
     """
-        Ends live audio stream.
-
-        Parameters:
-            ----------
-            None
-
-        Returns:
-            ----------
-            None
+    Internal Global Variables
     """
-    audio_stream.stop_stream()
-    if RECORD_TO_FILE: save_wave()
+    audio_engine = None
+    audio_frames = []
+    audio_stream = None
+    audio_file = None
+    processing_modules = []
+
+    def __init__(self):
+        self.audio_engine = pyaudio.PyAudio()
+        self.processing_modules.append(open_audio_controller.simple_filter.module_simple_filter())
+
+    def start_stream(self):
+        """
+            Starts audio stream.
+
+            Parameters:
+                ----------
+                None
+
+            Returns:
+                ----------
+                None
+        """
+        try:
+            if self.READ_FROM_FILE:
+                self.audio_file = wave.open(self.WAVE_INPUT_FILENAME, 'rb')
+                self.audio_stream = self.audio_engine.open(
+                    format=self.audio_engine.get_format_from_width(self.audio_file.getsampwidth()),
+                    channels=self.audio_file.getnchannels(),
+                    rate=self.audio_file.getframerate(),
+                    output=self.PLAYBACK_AUDIO,
+                    input=False,
+                    stream_callback=self.stream_callback)
+
+            else:
+                self.audio_stream = self.audio_engine.open(format=self.FORMAT,
+                                                           channels=self.CHANNELS,
+                                                           rate=self.RATE,
+                                                           output=self.PLAYBACK_AUDIO,
+                                                           input=True,
+                                                           stream_callback=self.stream_callback)
+            self.audio_stream.start_stream()
+            return -1
+        except Exception:
+            return 0
+
+    def stream_callback(self,
+                        in_data: bytes,
+                        frame_count: int,
+                        time_info: dict,
+                        flag: int) -> (numpy.ndarray, int):
+        """
+            Prepares audio engine.
+
+            Parameters:
+                ----------
+                in_data : bytes
+                    Input audio data from engine
+                frame_count : int
+                    Number of frames in input data
+                time_info : dict
+                    Dictionary containing loading, current, and finished timing
+                flag : int
+                    PortAudio callback flag
 
 
-def read_wave():
-    """
-        Reads existing wave file.
+            Returns:
+                ----------
+                audio_data : numpy.ndarray
+                    Output byte array
+                pyAudio.paContinue : int
+                    Internal signaling of whether there is more audio to process
+        """
 
-        Parameters:
-            ----------
-            None
+        if self.READ_FROM_FILE:
+            audio_data = self.audio_file.readframes(frame_count)
+        else:
+            audio_data = numpy.frombuffer(in_data, dtype=numpy.float32)
+        if self.RECORD_TO_FILE:
+            self.audio_frames.append(audio_data)
+        # logging.info(f"Typeof audio_data: {type(audio_data)}")
+        # logging.info(f"Typeof continue: {type(pyaudio.paContinue)}")
+        return audio_data, pyaudio.paContinue
 
-        Returns:
-            ----------
-            None
-    """
-    global audio_file
+    def end_stream(self):
+        """
+            Ends live audio stream.
 
-    pass
+            Parameters:
+                ----------
+                None
 
+            Returns:
+                ----------
+                None
+        """
+        self.audio_stream.stop_stream()
+        if self.RECORD_TO_FILE: self.save_wave()
+        return -1
 
-def save_wave():
-    """
-        Stores data in new wave file.
+    def save_wave(self):
+        """
+            Stores data in new wave file.
 
-        Parameters:
-            ----------
-            None
+            Parameters:
+                ----------
+                None
 
-        Returns:
-            ----------
-            None
-    """
-    global audio_engine, audio_frames
-    wave_file = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wave_file.setnchannels(CHANNELS)
-    wave_file.setsampwidth(audio_engine.get_sample_size(FORMAT))
-    wave_file.setframerate(RATE)
-    wave_file.writeframes(b''.join(audio_frames))
-    wave_file.close()
+            Returns:
+                ----------
+                None
+        """
+        wave_file = wave.open(self.WAVE_OUTPUT_FILENAME, 'wb')
+        wave_file.setnchannels(self.CHANNELS)
+        wave_file.setsampwidth(self.audio_engine.get_sample_size(self.FORMAT))
+        wave_file.setframerate(self.RATE)
+        wave_file.writeframes(b''.join(self.audio_frames))
+        wave_file.close()
+        return -1
 
+    def cleanup_engine(self):
+        """
+            Cleanup audio engine.
 
-def cleanup_engine():
-    """
-        Cleanup audio engine.
+            Parameters:
+                ----------
+                None
 
-        Parameters:
-            ----------
-            None
-
-        Returns:
-            ----------
-            None
-    """
-    if audio_stream is not None: audio_stream.close()
-    if audio_engine is not None: audio_engine.terminate()
+            Returns:
+                ----------
+                None
+        """
+        if self.audio_stream is not None: self.audio_stream.close()
+        if self.audio_engine is not None: self.audio_engine.terminate()
+        return -1
 
 
 def main():
@@ -207,11 +186,11 @@ def main():
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     else:
         logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
-    prepare()
-    start_stream()
-    time.sleep(RECORD_SECONDS)
-    end_stream()
-    cleanup_engine()
+    test = module_core()
+    test.start_stream()
+    time.sleep(test.RECORD_SECONDS)
+    test.end_stream()
+    test.cleanup_engine()
 
 
 if __name__ == "__main__":
