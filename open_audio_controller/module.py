@@ -1,16 +1,13 @@
-from abc import ABC
 import numpy
 
 
-class module(ABC):
-
-
+class module_abstract():
 
     def __init__(self):
         pass
 
 
-    def processing_module(self,
+    def stream_callback(self,
                         in_data: bytes,
                         frame_count: int,
                         time_info: dict,

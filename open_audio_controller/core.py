@@ -24,8 +24,8 @@ class module_core():
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
-    READ_FROM_FILE = False
-    RECORD_TO_FILE = False
+    READ_FROM_FILE = True
+    RECORD_TO_FILE = True
     PLAYBACK_AUDIO = True
     RECORD_SECONDS = 5
     WAVE_INPUT_FILENAME = "../tests/test_core_audio_files/test_input.wav"
@@ -59,6 +59,7 @@ class module_core():
         try:
             if self.READ_FROM_FILE:
                 self.audio_file = wave.open(self.WAVE_INPUT_FILENAME, 'rb')
+                self.RECORD_SECONDS = self.audio_file.getnframes()/ self.audio_file.getframerate()
                 self.audio_stream = self.audio_engine.open(
                     format=self.audio_engine.get_format_from_width(self.audio_file.getsampwidth()),
                     channels=self.audio_file.getnchannels(),
@@ -111,10 +112,14 @@ class module_core():
             audio_data = self.audio_file.readframes(frame_count)
         else:
             audio_data = numpy.frombuffer(in_data, dtype=numpy.float32)
+
+
+        for enhancement in self.processing_modules:
+            audio_data = enhancement.stream_callback(audio_data, frame_count, time_info, flag)
+
         if self.RECORD_TO_FILE:
             self.audio_frames.append(audio_data)
-        # logging.info(f"Typeof audio_data: {type(audio_data)}")
-        # logging.info(f"Typeof continue: {type(pyaudio.paContinue)}")
+
         return audio_data, pyaudio.paContinue
 
     def end_stream(self):
@@ -190,7 +195,6 @@ def main():
     test.start_stream()
     time.sleep(test.RECORD_SECONDS)
     test.end_stream()
-    test.cleanup_engine()
 
 
 if __name__ == "__main__":
