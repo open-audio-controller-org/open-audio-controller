@@ -12,16 +12,16 @@
         <!-- <button onclick="activationButton(event)" value="false">Deactivate Noise Cancellation</button> -->
     </div>
     <script type="text/javascript">
-        let controllerState = true;
+        let controllerState = false;
         async function activationButton(ev) {
             ev.preventDefault()
             // console.log(ev.target.value, ev.target.content)
             if (controllerState) {
                 ev.target.innerText = 'Deactivate Noise Cancellation'
-                controllerState = true;
+                controllerState = false;
             } else {
                 ev.target.innerText = 'Activate Noise Cancellation'
-                controllerState = false;
+                controllerState = true;
             }
             post("{{url_for('controller_state')}}", ({state: controllerState}))
         }
