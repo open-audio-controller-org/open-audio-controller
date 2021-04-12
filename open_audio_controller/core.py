@@ -24,8 +24,8 @@ class module_core():
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
-    READ_FROM_FILE = True
-    RECORD_TO_FILE = True
+    READ_FROM_FILE = False
+    RECORD_TO_FILE = False
     PLAYBACK_AUDIO = True
     RECORD_SECONDS = 5
     WAVE_INPUT_FILENAME = "../tests/test_core_audio_files/test_input.wav"
