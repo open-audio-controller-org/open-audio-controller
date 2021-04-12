@@ -4,7 +4,11 @@ core.py provides audio I/O and passes to audio processing
 
 import logging
 import time
-import pyaudio, wave, numpy
+
+import numpy
+import pyaudio
+import wave
+
 import open_audio_controller.module
 import open_audio_controller.simple_filter
 
@@ -20,7 +24,7 @@ class module_core():
     To be removed when replaced with JSON-based settings.
     """
 
-    FORMAT = pyaudio.paInt16
+    FORMAT = pyaudio.paInt32
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
@@ -109,13 +113,12 @@ class module_core():
         """
 
         if self.READ_FROM_FILE:
-            audio_data = self.audio_file.readframes(frame_count)
-        else:
-            audio_data = numpy.frombuffer(in_data, dtype=numpy.float32)
+            in_data = self.audio_file.readframes(frame_count)
 
+        audio_data = numpy.frombuffer(in_data, dtype=numpy.int32)
 
         for enhancement in self.processing_modules:
-            audio_data = enhancement.stream_callback(audio_data, frame_count, time_info, flag)
+            audio_data = enhancement.module_processor(audio_data, frame_count, time_info, flag)
 
         if self.RECORD_TO_FILE:
             self.audio_frames.append(audio_data)
