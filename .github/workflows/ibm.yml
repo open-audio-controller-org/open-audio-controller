@@ -16,9 +16,9 @@ on:
 # Environment variables available to all jobs and steps in this workflow
 env:
   GITHUB_SHA: ${{ github.sha }}
-  IBM_CLOUD_API_KEY: ${{ secrets.IBM_API_KEY }}
-  IBM_CLOUD_REGION: us-south
-  ICR_NAMESPACE: ${{ secrets.IBM_NAMESPACE }}
+  IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
+  IBM_CLOUD_REGION: eu-gb
+  ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
   REGISTRY_HOSTNAME: us.icr.io
   IMAGE_NAME: iks-open-audio-controller
   IKS_CLUSTER: c1s18bul0hekjdnbm9jg
