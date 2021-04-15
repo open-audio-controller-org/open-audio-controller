@@ -11,6 +11,7 @@ name: Build and Deploy to IKS
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
