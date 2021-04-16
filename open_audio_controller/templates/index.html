@@ -2,25 +2,26 @@
 <html>
 
 <head>
+<link rel "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <div id="content">
         <h1 id="heading">Open Audio Controller</h1>
-        <!-- <form action="{{ url_for('controller_state') }}", method="POST"></form> -->
+        
         <button onclick="activationButton(event)">Activate Noise Cancellation</button>
-        <!-- <button onclick="activationButton(event)" value="false">Deactivate Noise Cancellation</button> -->
+        
     </div>
     <script type="text/javascript">
         let controllerState = false;
         async function activationButton(ev) {
             ev.preventDefault()
-            // console.log(ev.target.value, ev.target.content)
+            
             if (controllerState) {
-                ev.target.innerText = 'Deactivate Noise Cancellation'
+                ev.target.innerText = 'Activate Noise Cancellation'
                 controllerState = false;
             } else {
-                ev.target.innerText = 'Activate Noise Cancellation'
+                ev.target.innerText = 'Deactivate Noise Cancellation'
                 controllerState = true;
             }
             post("{{url_for('controller_state')}}", ({state: controllerState}))

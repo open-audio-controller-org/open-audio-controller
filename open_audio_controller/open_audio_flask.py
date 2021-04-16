@@ -9,7 +9,7 @@ core_module = module_core()
 @app.route('/')
 def index():
     """
-    Paramaters:
+    Parameters:
         ----------
         None.
 
@@ -46,10 +46,11 @@ def controller_state():
     content = request.get_json(force=True)
     state = content["state"]
     if state == True:
-        app.logger.info('Turning on Module')
+        # app.logger.info('Turning on Module')
+        print('Turning on Module')
         core_module.start_stream()
     elif state == False:
-        app.logger.info('Turning off module')
+        print('Turning off module')
         core_module.end_stream()
     else:
         app.logger.info('No state found')
