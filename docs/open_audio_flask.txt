@@ -1,0 +1,26 @@
+ 
+ index:
+ Paramaters:
+        ----------
+        None.
+
+    Returns
+        --------
+        A rendered version of index.html and a http response code 200
+    
+    The function renders the index page for the app
+
+controller_state:
+Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio module in use.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    
+    Activates the core module and Checks the value of state from the front end and activates/deactivates the module based on that state   
+    

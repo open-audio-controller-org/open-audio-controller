@@ -8,11 +8,39 @@ core_module = module_core()
 
 @app.route('/')
 def index():
+    """
+    Paramaters:
+        ----------
+        None.
+
+    Returns
+        --------
+        A rendered version of index.html and a http response code 200
+    
+    The function renders the index page for the app
+    
+    """
+     
     return render_template('index.html')
 
 
 @app.route('/controller_state', methods=['POST'])
 def controller_state():
+    """
+    Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio module in use.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    Checks the value of state from the front end and activates/deactivates the module based on that state      
+
+
+    """
     global core_module
     if not core_module: core_module = module_core()
     content = request.get_json(force=True)
