@@ -4,5 +4,6 @@ body{
 
 div h1 {
     color: navy;
-    margin-left: auto;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
 }
