@@ -1,5 +1,5 @@
 body{
-    background-color: lightblue;
+    background-color: rgb(0, 138, 184)
 }
 
 div h1 {
@@ -7,3 +7,16 @@ div h1 {
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
 }
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  .centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+  }
+ 
