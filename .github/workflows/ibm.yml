@@ -11,7 +11,7 @@ name: Build and Deploy to IKS
 on:
   release:
     types: [created]
-  workflow_dispatch:
+  workflow_dispatch:  
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -20,9 +20,9 @@ env:
   IBM_CLOUD_REGION: us-south
   ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
   REGISTRY_HOSTNAME: us.icr.io
-  IMAGE_NAME: iks-open-audio-controller
+  IMAGE_NAME: open-audio-controller
   IKS_CLUSTER: c1s18bul0hekjdnbm9jg
-  DEPLOYMENT_NAME: iks-open-audio-controller
+  DEPLOYMENT_NAME: open-audio-controller
   PORT: 5001
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
     # Push the image to IBM Container Registry
     - name: Push the image to ICR
       run: |
-        docker push "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$IMAGE_NAME":"$GITHUB_SHA"
+        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA
 
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
