@@ -3,8 +3,12 @@ core.py provides audio I/O and passes to audio processing
 """
 
 import logging
+import struct
 import time
+
+import numpy as np
 import pyaudio, wave, numpy
+
 import open_audio_controller.module
 import open_audio_controller.simple_filter
 
@@ -12,7 +16,6 @@ import open_audio_controller.simple_filter
 Internal Debug Flag
 """
 DEBUG = True
-
 
 class module_core():
     """
@@ -39,10 +42,12 @@ class module_core():
     audio_stream = None
     audio_file = None
     processing_modules = []
+    plot_data = None
 
     def __init__(self):
         self.audio_engine = pyaudio.PyAudio()
         self.processing_modules.append(open_audio_controller.simple_filter.module_simple_filter())
+
 
     def start_stream(self):
         """
@@ -109,10 +114,11 @@ class module_core():
         """
 
         if self.READ_FROM_FILE:
-            audio_data = self.audio_file.readframes(frame_count)
-        else:
-            audio_data = numpy.frombuffer(in_data, dtype=numpy.float32)
+            in_data = self.audio_file.readframes(frame_count)
 
+        audio_data = in_data
+
+        plot_data = np.array(struct.unpack(str(2 * self.CHUNK) + 'B', audio_data), dtype='b')[::2]
 
         for enhancement in self.processing_modules:
             audio_data = enhancement.stream_callback(audio_data, frame_count, time_info, flag)
@@ -191,6 +197,7 @@ def main():
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     else:
         logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
+
     test = module_core()
     test.start_stream()
     time.sleep(test.RECORD_SECONDS)
