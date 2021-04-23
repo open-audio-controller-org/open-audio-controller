@@ -57,6 +57,11 @@ def controller_state():
 
     return jsonify(state)
 
+@app.route('/spectrum', methods['GET'])
+def spectrum():
+    return jsonify(core_module.plot_data)
+
+
 
 if __name__ == '__main__':
     core_module = module_core()
