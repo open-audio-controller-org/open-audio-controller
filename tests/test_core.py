@@ -19,7 +19,7 @@ class TestGroupName(unittest.TestCase):
         setUp() is used to declare variables or initialise data
         structures to be used across the test group.
         '''
-        self.core_test = open_audio_controller.core.module_core()
+        self.core_test = open_audio_controller.core.core_module()
 
     def test_live(self):
         self.core_test.READ_FROM_FILE = False
