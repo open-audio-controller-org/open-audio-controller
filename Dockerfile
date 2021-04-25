@@ -10,5 +10,4 @@ COPY . /app
 # RUN coverage run test_suite.py
 # ENTRYPOINT ["coverage", "report"]
 EXPOSE 5000
-ENTRYPOINT ["python3"]
-CMD ["open_audio_controller/__open-audio-flask__.py"]
+ENTRYPOINT ["flask", "run"]

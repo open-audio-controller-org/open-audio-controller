@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, logging, json, make_response, jsonify
-
+from open_audio_controller.core import core_module
 app = Flask(__name__)
-from open_audio_controller.core import module_core
 
-core_module = module_core()
+
+core_module = core_module()
 
 
 @app.route('/')
@@ -42,7 +42,7 @@ def controller_state():
 
     """
     global core_module
-    if not core_module: core_module = module_core()
+    if not core_module: core_module = core_module()
     content = request.get_json(force=True)
     state = content["state"]
     if state == True:
@@ -64,5 +64,5 @@ def controller_state():
 
 
 if __name__ == '__main__':
-    core_module = module_core()
+    core_module = core_module()
     app.run(debug=True, host='0.0.0.0', port=5000)
