@@ -123,6 +123,8 @@ class core_module():
         for enhancement in self.processing_modules:
             audio_data = enhancement.module_processor(audio_data, frame_count, time_info, flag)
 
+        self.plot_data = numpy.array(struct.unpack(str(2 * self.CHUNK) + 'B', audio_data), dtype='b')[::2]
+
         if self.RECORD_TO_FILE:
             self.audio_frames.append(audio_data)
 
