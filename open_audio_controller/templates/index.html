@@ -6,15 +6,44 @@
 </head>
 
 <body>
-   
+
     <div id="content">
-        <img src="static/IBMlogo.png" class="center" > 
-        <br> 
-        <br>      
-        <button class = "centered" onclick="activationButton(event)">Activate Noise Cancellation</button>
-         
+        <img src="static/logo-transparent.png"
+             style="object-fit:cover;
+                    width:150px;
+                    height:75px;" class="bottomRight">     
+        <button class = "centered" onclick="activationButton(event)">Live Feedback</button>  
+
+        <br>
+        <button class = "centered" onclick="">Record</button>
     </div>
+    <br>
+    <br>
+    <div style="width:1200px;height:550px;border:1px solid #000;" class="centered"></div>
+
+
+
+<!-- this is all tempory code for the spectrum analyzer
+
     <div id="my_dataviz"></div>
+
+    <div if="waveform"></div>
+
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+
+    <script>
+        var Spectrum = WaveSurfer.create({
+            container: '#waveform',
+            progressColor: "#00d93a",
+            backgroundColor: "#454545"
+        })
+
+
+
+    </script>
+
+    -->
+
 
     <script type="text/javascript">
         let controllerState = false;
@@ -22,10 +51,10 @@
             ev.preventDefault()
             
             if (controllerState) {
-                ev.target.innerText = 'Activate Noise Cancellation'
+                ev.target.innerText = 'Live Feedback'
                 controllerState = false;
             } else {
-                ev.target.innerText = 'Deactivate Noise Cancellation'
+                ev.target.innerText = 'Stop Feedback'
                 controllerState = true;
             }
             post("{{url_for('controller_state')}}", ({state: controllerState}))
@@ -47,27 +76,8 @@
             
         }
     </script>
-    <script src="https://d3js.org/d3.v6.min.js">
-        async function draw_graph(){
-            var margin = {top: 200,
-                        right: 30,
-                        bottom: 30,
-                        left: 60},
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
-            var svg = d3.select("#my_dataviz")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-            d3.csv(get("{{url_for('spectrum')}}"))
 
 
-        
-    }
-    </script>
 </body>
 
 </html>
