@@ -22,4 +22,4 @@ jobs:
       - name: Run dockerfile with python tests
         run: |
           docker build -t open-audio-controller .
-          docker run -env FLASK_APP=open_audio_controller/open_audio_flask.py open-audio-controller
+          docker run --env FLASK_APP=open_audio_controller/open_audio_flask.py open-audio-controller
