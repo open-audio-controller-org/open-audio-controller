@@ -9,7 +9,7 @@ import numpy
 import pyaudio
 import wave
 
-import open_audio_controller.module
+import open_audio_controller.module_template
 import open_audio_controller.simple_filter
 
 """
@@ -18,13 +18,13 @@ Internal Debug Flag
 DEBUG = True
 
 
-class module_core():
+class core_module():
     """
     Constants holding user's desired settings.
     To be removed when replaced with JSON-based settings.
     """
 
-    FORMAT = pyaudio.paInt32
+    FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
@@ -63,7 +63,7 @@ class module_core():
         try:
             if self.READ_FROM_FILE:
                 self.audio_file = wave.open(self.WAVE_INPUT_FILENAME, 'rb')
-                self.RECORD_SECONDS = self.audio_file.getnframes()/ self.audio_file.getframerate()
+                self.RECORD_SECONDS = self.audio_file.getnframes() / self.audio_file.getframerate()
                 self.audio_stream = self.audio_engine.open(
                     format=self.audio_engine.get_format_from_width(self.audio_file.getsampwidth()),
                     channels=self.audio_file.getnchannels(),
@@ -115,7 +115,7 @@ class module_core():
         if self.READ_FROM_FILE:
             in_data = self.audio_file.readframes(frame_count)
 
-        audio_data = numpy.frombuffer(in_data, dtype=numpy.int32)
+        audio_data = numpy.frombuffer(in_data, dtype=numpy.int16)
 
         for enhancement in self.processing_modules:
             audio_data = enhancement.module_processor(audio_data, frame_count, time_info, flag)
@@ -194,7 +194,7 @@ def main():
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     else:
         logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
-    test = module_core()
+    test = core_module()
     test.start_stream()
     time.sleep(test.RECORD_SECONDS)
     test.end_stream()

@@ -1,7 +1,7 @@
 import numpy
 
 
-class module_abstract:
+class module_template:
 
     def __init__(self):
         pass
