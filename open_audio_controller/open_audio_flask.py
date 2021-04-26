@@ -61,7 +61,7 @@ def controller_state():
 #def spectrum():
 #    return jsonify(core_module.plot_data)
 @app.route('/playback', methods =['POST'])
-def recorder_state():
+def playback():
     content=request.get_json(force=True)
     state = content["state"]
     if state == True:

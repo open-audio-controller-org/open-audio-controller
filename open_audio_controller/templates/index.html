@@ -73,7 +73,7 @@
                 ev.target.innerText = 'Live Feedback On'
                 controllerPlayback = true;
             }
-            post("{{url_for('recorder_state')}}", ({state: controllerPlayback}))
+            post("{{url_for('playback')}}", ({state: controllerPlayback}))
         }
 
         async function post(route, data) {
