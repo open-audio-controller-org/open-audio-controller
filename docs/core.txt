@@ -1,0 +1,71 @@
+class core_module:
+  Instantiable object that handles audio input and output.
+
+start_stream:
+	Parameters: 
+	-----------
+	None
+  
+  Returns
+	-------
+	return_code : int
+    Simple error code return value. -1 indicates success, 0 indicates failure.
+
+This function initializes the audio stream, using the variables stored within the core_module object for user settings. 
+
+stream_callback:
+	Parameters: 
+	-----------
+  in_data : bytes
+      Input audio data from engine
+  frame_count : int
+      Number of frames in input data
+  time_info : dict
+      Dictionary containing loading, current, and finished timing
+  flag : int
+      PortAudio callback flag
+
+  Returns:
+      ----------
+      audio_data : numpy.ndarray
+          Output byte array
+      pyAudio.paContinue : int
+          Internal signaling of whether there is more audio to process
+
+This is an internal function for the audio stream to use - it should NEVER be manually called. It is used as an argument when initializing the audio stream.
+
+end_stream:
+	Parameters: 
+	-----------
+	None
+
+  Returns
+	-------
+  return_code : int
+    Simple error code return value. -1 indicates success, 0 indicates failure.
+
+This function closes the audio stream, and if specified in the user settings (within the core_module object), it saves the audio as a file.
+
+save_wave:
+	Parameters: 
+	-----------
+	None
+
+  Returns
+	-------
+  return_code : int
+    Simple error code return value. -1 indicates success, 0 indicates failure.
+
+Called by end_stream, is responsible for saving the recorded audio data to a file.
+
+cleanup_engine:
+	Parameters: 
+	-----------
+	None
+
+  Returns
+	-------
+  return_code : int
+    Simple error code return value. -1 indicates success, 0 indicates failure.
+
+Cleans up and terminates the audio engine and audio stream objects.
