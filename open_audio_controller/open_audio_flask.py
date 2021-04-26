@@ -20,7 +20,8 @@ def index():
     The function renders the index page for the app
     
     """
-     
+    global core_module
+    if not core_module: core_module = core_module() 
     return render_template('index.html')
 
 
@@ -41,8 +42,7 @@ def controller_state():
 
 
     """
-    global core_module
-    if not core_module: core_module = core_module()
+    
     content = request.get_json(force=True)
     state = content["state"]
     if state == True:
