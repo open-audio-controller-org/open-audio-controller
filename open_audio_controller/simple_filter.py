@@ -35,8 +35,8 @@ class module_simple_filter(module_template):
                          flag: int) -> (numpy.ndarray, int):
 
         # The following line is commented pending proper implementation of the filter module.
-        out_data = self.butter_bandpass_filter(in_data)
+        # out_data = self.butter_bandpass_filter(in_data)
 
-        # out_data = in_data
+        out_data = in_data
 
         return out_data
