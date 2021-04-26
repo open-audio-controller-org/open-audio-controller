@@ -15,7 +15,7 @@
         <button class = "centered" onclick="activationButton(event)">Start recording</button>  
 
         <br>
-        <button class = "centered" onclick="">Record</button>
+        <button id='playback' class = "centered" onclick="recordButton(event)">Live Feedback Off</button>
     </div>
     <br>
     <br>
@@ -47,17 +47,33 @@
 
     <script type="text/javascript">
         let controllerState = false;
+        const button = document.getElementById('playback')
         async function activationButton(ev) {
             ev.preventDefault()
             
             if (controllerState) {
                 ev.target.innerText = 'Start Recording'
                 controllerState = false;
+                button.disabled = false;
             } else {
                 ev.target.innerText = 'Stop Recording'
                 controllerState = true;
+                button.disabled = true;
             }
+            
             post("{{url_for('controller_state')}}", ({state: controllerState}))
+        }
+        let controllerPlayback = false;
+        async function playbackButton(ev){
+            ev.preventDefault()
+            if(controllerPlayback){
+                ev.target.innerText = 'Live Feedback Off'
+                controllerPlayback = false;
+            } else{
+                ev.target.innerText = 'Live Feedback On'
+                controllerPlayback = true;
+            }
+            post("{{url_for('recorder_state')}}", ({state: controllerPlayback}))
         }
 
         async function post(route, data) {

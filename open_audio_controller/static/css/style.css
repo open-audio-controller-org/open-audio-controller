@@ -21,6 +21,10 @@ div h1 {
     width: 15%;
 }
 
+.centered:hover {
+    cursor: pointer;
+}
+
 .bottomRight {
     display: block;
     position: absolute;
