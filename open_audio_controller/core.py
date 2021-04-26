@@ -34,7 +34,7 @@ class core_module():
     PLAYBACK_AUDIO = True
     RECORD_SECONDS = 5
     WAVE_INPUT_FILENAME = "../tests/test_core_audio_files/test_input.wav"
-    WAVE_OUTPUT_FILENAME = "../tests/test_core_audio_files/test_output.wav"
+    WAVE_OUTPUT_FILENAME = "test_output.wav"
 
     """
     Internal Global Variables
