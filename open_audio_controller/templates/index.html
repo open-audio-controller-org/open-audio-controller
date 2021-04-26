@@ -12,7 +12,7 @@
              style="object-fit:cover;
                     width:150px;
                     height:75px;" class="bottomRight">     
-        <button class = "centered" onclick="activationButton(event)">Live Feedback</button>  
+        <button class = "centered" onclick="activationButton(event)">Start recording</button>  
 
         <br>
         <button class = "centered" onclick="">Record</button>
@@ -51,10 +51,10 @@
             ev.preventDefault()
             
             if (controllerState) {
-                ev.target.innerText = 'Live Feedback'
+                ev.target.innerText = 'Start Recording'
                 controllerState = false;
             } else {
-                ev.target.innerText = 'Stop Feedback'
+                ev.target.innerText = 'Stop Recording'
                 controllerState = true;
             }
             post("{{url_for('controller_state')}}", ({state: controllerState}))
