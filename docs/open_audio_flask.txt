@@ -10,7 +10,25 @@
     
     The function renders the index page for the app
 
+
+
 controller_state:
+Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio playback variable.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    
+    Checks the state value of the record button from the front end and starts or ends the audio stream depending on said state
+
+
+
+playback:
 Parameters:
         ----------
         State: JSON object 
@@ -22,5 +40,5 @@ Parameters:
         The Jsonified version of state
     
     
-    Activates the core module and Checks the value of state from the front end and activates/deactivates the module based on that state   
+    Checks the state value of the live feedback button from the front end sets the playback audio variable to true or false depending on said state
     

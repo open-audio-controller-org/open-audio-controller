@@ -31,14 +31,15 @@ def controller_state():
     Parameters:
         ----------
         State: JSON object 
-          The state of the audio module in use.
+            The state of the audio module in use.
 
 
     Returns:
         ---------
         The Jsonified version of state
     
-    Checks the value of state from the front end and activates/deactivates the module based on that state      
+    Checks the value of state from the front end and
+    activates/deactivates the module based on that state      
 
 
     """
@@ -60,8 +61,27 @@ def controller_state():
 #@app.route('/spectrum', methods['GET'])
 #def spectrum():
 #    return jsonify(core_module.plot_data)
+
+
 @app.route('/playback', methods =['POST'])
 def playback():
+    """
+    Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio module in use.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    
+    Checks the state value of the live feedback button
+    from the front end sets the playback audio variable to
+    true or false depending on said state
+    
+    """
     content=request.get_json(force=True)
     state = content["state"]
     if state == True:
