@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div id="content">
+        <img src="static/logo-transparent.png"
+             style="object-fit:cover;
+                    width:150px;
+                    height:75px;" class="bottomRight">     
+        <button class = "centered" onclick="activationButton(event)">Start recording</button>  
+
+        <br>
+        <button id='playback' class = "centered" onclick="playbackButton(event)">Live Feedback Off</button>
+    </div>
+    <br>
+    <br>
+    <div style="width:1200px;height:550px;border:1px solid #000;" class="centered"></div>
+
+
+
+<!-- this is all tempory code for the spectrum analyzer
+
+    <div id="my_dataviz"></div>
+
+    <div if="waveform"></div>
+
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+
+    <script>
+        var Spectrum = WaveSurfer.create({
+            container: '#waveform',
+            progressColor: "#00d93a",
+            backgroundColor: "#454545"
+        })
+
+
+
+    </script>
+
+    -->
+
+
+    <script type="text/javascript">
+        let controllerState = false;
+        const button = document.getElementById('playback')
+        async function activationButton(ev) {
+            ev.preventDefault()
+            
+            if (controllerState) {
+                ev.target.innerText = 'Start Recording'
+                controllerState = false;
+                button.disabled = false;
+            } else {
+                ev.target.innerText = 'Stop Recording'
+                controllerState = true;
+                button.disabled = true;
+            }
+            
+            post("{{url_for('controller_state')}}", ({state: controllerState}))
+        }
+        let controllerPlayback = false;
+        async function playbackButton(ev){
+            ev.preventDefault()
+            if(controllerPlayback==true){
+                ev.target.innerText = 'Live Feedback Off'
+                controllerPlayback = false;
+            } else{
+                ev.target.innerText = 'Live Feedback On'
+                controllerPlayback = true;
+            }
+            post("{{url_for('playback')}}", ({state: controllerPlayback}))
+        }
+
+        async function post(route, data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', route)
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.send(JSON.stringify(data))
+        }
+        async function get(route){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', route)
+            xhr.send()
+            xhr.onload = function(){
+                return data
+            }
+            
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+module_template - to be used when creating additional modules
+
+module_processor:
+	Parameters: 
+	-----------
+  in_data : bytes
+      Input audio data from engine
+  frame_count : int
+      Number of frames in input data
+  time_info : dict
+      Dictionary containing loading, current, and finished timing
+  flag : int
+      PortAudio callback flag
+
+  Returns:
+      ----------
+      audio_data : numpy.ndarray
+          Output byte array
+
+This function should be modified to add the user's own audio enhancements, before returning the processed audio.

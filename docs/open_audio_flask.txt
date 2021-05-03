@@ -1,0 +1,44 @@
+ 
+ index:
+ Paramaters:
+        ----------
+        None.
+
+    Returns
+        --------
+        A rendered version of index.html and a http response code 200
+    
+    The function renders the index page for the app
+
+
+
+controller_state:
+Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio playback variable.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    
+    Checks the state value of the record button from the front end and starts or ends the audio stream depending on said state
+
+
+
+playback:
+Parameters:
+        ----------
+        State: JSON object 
+          The state of the audio module in use.
+
+
+    Returns:
+        ---------
+        The Jsonified version of state
+    
+    
+    Checks the state value of the live feedback button from the front end sets the playback audio variable to true or false depending on said state
+    

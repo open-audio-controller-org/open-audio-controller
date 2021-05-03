@@ -1,0 +1,22 @@
+
+<!--  temperary code had to remove from main file as it wasnt running when it was in there, ignore this file for now - Ollie
+
+
+   <script src="https://d3js.org/d3.v6.min.js">
+        async function draw_graph(){
+            var margin = {top: 200,
+                        right: 30,
+                        bottom: 30,
+                        left: 60},
+            width = 460 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+            var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+            d3.csv(get("{{url_for('spectrum')}}"))   
+    }
+    </script> -->

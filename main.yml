@@ -1,0 +1,14 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: Placeholder job
+    steps:
+    - name: placeholder action step
+      id: placeholder
+      uses: actions/open-audio-controller
+    # input called using the with command ||   with:
+    # Use the output from the previous step
+    - name: Get output
+      run: echo "${{ steps.placeholder.outputs.text }}"
