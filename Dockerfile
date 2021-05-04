@@ -8,8 +8,8 @@ COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . /app
-# WORKDIR /open-audio-controller/tests
-# RUN coverage run test_suite.py
-# ENTRYPOINT ["coverage", "report"]
-EXPOSE 5000
-ENTRYPOINT ["flask", "run"]
+WORKDIR tests
+RUN coverage run test_suite.py
+ENTRYPOINT ["coverage", "report"]
+#EXPOSE 5000
+#ENTRYPOINT ["flask", "run"]
