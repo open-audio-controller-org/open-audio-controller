@@ -72,6 +72,8 @@ jobs:
         SELECTOR: ${{ steps.deploy-and-expose.outputs.selector }}
 
     steps:
+    - name: OpenShift Client Installer
+      uses: redhat-actions/oc-installer@v1
     - name: Check if secrets exists
       uses: actions/github-script@v3
       with:
