@@ -1,6 +1,8 @@
 import time
 import unittest
-import open_audio_controller.core
+import sys
+sys.path.insert(1, '/app/open_audio_controller')
+import core
 
 '''
 Mandatory import for unit testing capability
@@ -8,7 +10,7 @@ The code you want to test should also be imported here.
 '''
 
 
-class TestGroupName(unittest.TestCase):
+class CoreTests(unittest.TestCase):
     '''
     Use a class which extends unittest.TestCase to
     group your tests together.
@@ -19,7 +21,7 @@ class TestGroupName(unittest.TestCase):
         setUp() is used to declare variables or initialise data
         structures to be used across the test group.
         '''
-        self.core_test = open_audio_controller.core.core_module()
+        self.core_test = core.core_module()
 
     def test_live(self):
         self.core_test.READ_FROM_FILE = False
@@ -48,7 +50,7 @@ class TestGroupName(unittest.TestCase):
         '''
         self.core_test.cleanup_engine()
 
-
+"""
 if __name__ == '__main__':
     '''
     The tests in this file will automatically be discovered and
@@ -57,3 +59,4 @@ if __name__ == '__main__':
     running this file.
     '''
     unittest.main()
+"""

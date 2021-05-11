@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, logging, json, make_response, jsonify
+import sys
+sys.path.insert(1, '/app')
 from open_audio_controller.core import core_module
 app = Flask(__name__)
 

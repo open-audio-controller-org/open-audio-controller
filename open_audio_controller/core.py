@@ -10,6 +10,8 @@ import numpy
 import pyaudio
 import wave
 
+import sys
+sys.path.insert(1, '/app')
 import open_audio_controller.module_template
 import open_audio_controller.simple_filter
 

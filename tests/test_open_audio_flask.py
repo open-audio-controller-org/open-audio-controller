@@ -1,4 +1,7 @@
-from open_audio_controller import open_audio_flask
+import sys
+sys.path.insert(1, '/app/open_audio_controller')
+
+import open_audio_flask
 
 import unittest
 """
@@ -7,7 +10,7 @@ The code you want to test should also be imported here.
 """
 
 
-class TestGroupName(unittest.TestCase):
+class FlaskTests(unittest.TestCase):
     """
     Use a class which extends unittest.TestCase to
     group your tests together.
@@ -22,8 +25,10 @@ class TestGroupName(unittest.TestCase):
         open_audio_flask.config['TESTING'] = True
         open_audio_flask.config['WTF_CSRF_ENABLED'] = False
         open_audio_flask.config['DEBUG'] = False
+
     def recorder(self, state):
         return self.open_audio_flask.post('/controller_state', json={'state': state})
+
     def playback(self, state):
         return self.open_audio_flask.post('/playback', json={'state': state})
 
@@ -34,13 +39,17 @@ class TestGroupName(unittest.TestCase):
         the appropriate parameters and a meaningful failure message.
         """
         response = self.recorder(self, True)
+        print(f"active_record {response.status_code}")
         self.assertEqual(response.status_code, 200)
+
     def test_deactivating_module(self):
         response = self.recorder(self, False)
         self.assertEqual(response.status_code, 200)
+
     def test_activating_playback(self):
         response = self.playback(self, True)
         self.assertEqual(response.status_code, 200)
+
     def test_deactivating_module(self):
         response = self.playback(self, False)
         self.assertEqual(response.status_code, 200)
@@ -55,7 +64,7 @@ class TestGroupName(unittest.TestCase):
         pass
 
 
-'''
+
 if __name__ == '__main__':
     """
     The tests in this file will automatically be discovered and
@@ -64,5 +73,3 @@ if __name__ == '__main__':
     running this file.
     """
     unittest.main()
-'''
-
